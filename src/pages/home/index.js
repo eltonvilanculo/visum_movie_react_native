@@ -67,9 +67,9 @@ function Home (){
             ])
 
             if(isActive){
-                setNowMovies(limitMovieList(10, nowData.data.results))
-                setPopularMovies(limitMovieList(15,popularData.data.results))
-                setTopMovies(limitMovieList(8,topData.data.results));
+                setNowMovies(limitMovieList(15, nowData.data.results))
+                setPopularMovies(limitMovieList(18,popularData.data.results))
+                setTopMovies(limitMovieList(10,topData.data.results));
 
                 setBanner(nowData.data.results[randomBanner(nowData.data.results)])
 

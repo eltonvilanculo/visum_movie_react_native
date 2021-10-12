@@ -5,12 +5,15 @@ import {api,key} from '../../services/api'
 import Stars from 'react-native-stars'
 import {useNavigation} from '@react-navigation/native'
 import Genres from '../../components/Genres';
-import { ScrollView } from 'react-native';
+import { Modal } from 'react-native';
+import ModalItem from '../../components/ModalItem';
+
 
 export default function Detail ({route}){
 
     const [movie,setMovie] = React.useState({});
     const [loading,isLoading] = React.useState(true);
+    const [modalVisible,setModalVisible] = React.useState(false);
     const navigation = useNavigation();
 
 React.useEffect(()=>{
@@ -58,6 +61,10 @@ React.useEffect(()=>{
    }
 },[])
 
+function openModal(){
+    setModalVisible(true)
+}
+
     return(
 
 
@@ -89,7 +96,7 @@ React.useEffect(()=>{
               
               />
 
-              <ButtonLink>
+              <ButtonLink onPress={()=>openModal()}>
               
               <Feather name="link" color="#fff" size={24} />
               </ButtonLink>
@@ -135,6 +142,16 @@ React.useEffect(()=>{
               <Description>{movie.overview}</Description>
              
               </DescriptionContainer>
+
+              <Modal    
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              >
+              
+              <ModalItem  link={movie?.homepage} title={movie?.title}  closeModal={()=>setModalVisible(false)}/>
+              
+              </Modal>
         </Container>
     )
 }
