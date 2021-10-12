@@ -98,6 +98,20 @@ min-height: 44px;
 
 
 
+export const DescriptionContainer = styled.ScrollView`
+
+padding: 14px 14px;
+width: 100%;
 
 
+`
+
+export const Description = styled.Text`
+
+color: #fff;
+padding: 8px 14px;
+line-height: 20px;
+text-align: justify;
+
+`
 

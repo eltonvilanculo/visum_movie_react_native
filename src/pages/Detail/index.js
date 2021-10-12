@@ -1,10 +1,11 @@
 import * as React from 'react'
-import { Container ,Header,HeaderButton,Banner,ButtonLink,Title,ContentArea,Rate,ListGenres} from './styles'
+import { Container ,Header,HeaderButton,Banner,ButtonLink,Title,ContentArea,Rate,ListGenres,DescriptionContainer,Description} from './styles'
 import {Feather,Ionicons} from '@expo/vector-icons';
 import {api,key} from '../../services/api'
 import Stars from 'react-native-stars'
 import {useNavigation} from '@react-navigation/native'
 import Genres from '../../components/Genres';
+import { ScrollView } from 'react-native';
 
 export default function Detail ({route}){
 
@@ -122,6 +123,18 @@ React.useEffect(()=>{
               keyExtractor={(item)=>String(item.id)}
               
               />
+
+              <DescriptionContainer showVerticalScrollIndicator={false}>             
+               <Title>
+              
+                    Descrição
+              
+              </Title>
+             
+
+              <Description>{movie.overview}</Description>
+             
+              </DescriptionContainer>
         </Container>
     )
 }
