@@ -20,9 +20,9 @@ padding: 14px;
 
 
 export const HeaderButton = styled.TouchableOpacity `
-height: 46px;
-height: 46px;
-border-radius: 23px;
+height: 42px;
+width: 42px;
+border-radius: 21px;
 background-color: rgba(25,26,48,0.7);
 justify-content: center;
 align-items: center;

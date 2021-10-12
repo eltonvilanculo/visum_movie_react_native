@@ -15,6 +15,7 @@ function Home (){
 
     const [nowMovies, setNowMovies] = React.useState([]);
     const [poplularMovies, setPopularMovies] = React.useState([]);
+    const [input, setInput ]= React.useState("");
     const [topMovies, setTopMovies] = React.useState([]);
     const [loading, isLoading] = React.useState(true);
     const [banner,setBanner] = React.useState({});
@@ -96,6 +97,12 @@ function Home (){
     },[])
 
 
+    function handleSearch(){
+        if(input=="") return ;
+
+       navigation.navigate("Search",{text:input})
+       setInput("");
+    }
     function navigatePage(item){
         navigation.navigate('Detail',item)
     }
@@ -116,15 +123,15 @@ function Home (){
         <Header  title = "Visum Movies"/>
         <SearchContainer>
         
-            <Input placeholder = "Busque Aqui" placeholderTextColor="#ddd"/>
+            <Input placeholder = "Busque Aqui" placeholderTextColor="#ddd" onChangeText={(text)=>setInput(text)} value={input}/>
         
-            <SearchButton>
+            <SearchButton onPress={handleSearch}>
             
                 <Feather name = "search" size={24} color = "#fff" />
             
             
             </SearchButton>
-        
+         
        
         
         </SearchContainer>
