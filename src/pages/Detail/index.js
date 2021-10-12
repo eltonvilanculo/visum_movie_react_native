@@ -8,12 +8,16 @@ import Genres from '../../components/Genres';
 import { Modal } from 'react-native';
 import ModalItem from '../../components/ModalItem';
 
+import {saveMovie,getLocalMovies,filterMovie,removeMovie} from '../../services/storage'
+
 
 export default function Detail ({route}){
 
     const [movie,setMovie] = React.useState({});
     const [loading,isLoading] = React.useState(true);
     const [modalVisible,setModalVisible] = React.useState(false);
+    const [favMovie,setFavMovie] = React.useState();
+
     const navigation = useNavigation();
 
 React.useEffect(()=>{
@@ -35,6 +39,9 @@ React.useEffect(()=>{
 
         setMovie(response.data);
         isLoading(false); 
+        const isFavorite= await filterMovie("@movies_key",response.data);
+
+        setFavMovie(isFavorite)
 
         
 
@@ -49,9 +56,8 @@ React.useEffect(()=>{
     
     }
 
-    if(!loading){
-        console.log(movie)
-    }
+   
+   
     
    return ()=>{
 
@@ -63,6 +69,24 @@ React.useEffect(()=>{
 
 function openModal(){
     setModalVisible(true)
+}
+
+
+async function handleBookMark(){
+
+    const result = await saveMovie("@movies_key",movie)
+
+   if(result){
+       alert('Filme adicionado à lista !') 
+   }else{
+    if(favMovie){
+        await removeMovie("@movies_key",movie.id)
+        setFavMovie(false)
+        alert(`${movie.title} removido da sua lista !`)
+    }
+   }
+
+   
 }
 
     return(
@@ -80,9 +104,9 @@ function openModal(){
                 </HeaderButton>
 
 
-                <HeaderButton>
+                <HeaderButton onPress={handleBookMark}>
                 
-                <Feather name="bookmark" color="#fff" size={28} />
+                {favMovie?(<Ionicons name="bookmark" color="#fff" size={28} />):(<Ionicons name="bookmark-outline" color="#fff" size={28} />)}
 
                 
                 </HeaderButton>
