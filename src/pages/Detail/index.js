@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { Container ,Header,HeaderButton,Banner,ButtonLink,Title,ContentArea,Rate,ListGenres,DescriptionContainer,Description} from './styles'
+import { Container ,Header,HeaderButton,Banner,ButtonLink,ButtonShare,Title,ContentArea,Rate,ListGenres,DescriptionContainer,Description} from './styles'
 import {Feather,Ionicons} from '@expo/vector-icons';
 import {api,key} from '../../services/api'
 import Stars from 'react-native-stars'
 import {useNavigation} from '@react-navigation/native'
 import Genres from '../../components/Genres';
-import { Modal } from 'react-native';
+import { Modal,Share,ActivityIndicator,SafeAreaView } from 'react-native';
 import ModalItem from '../../components/ModalItem';
 
 import {saveMovie,getLocalMovies,filterMovie,removeMovie} from '../../services/storage'
@@ -17,6 +17,7 @@ export default function Detail ({route}){
     const [loading,isLoading] = React.useState(true);
     const [modalVisible,setModalVisible] = React.useState(false);
     const [favMovie,setFavMovie] = React.useState();
+    const [disableShare,setDisableShare]=React.useState(true);
 
     const navigation = useNavigation();
 
@@ -69,8 +70,33 @@ React.useEffect(()=>{
 
 function openModal(){
     setModalVisible(true)
+
 }
 
+async function handleShare(){
+
+    
+    try{
+    const result =  await Share.share({
+        message:`Venho da VISUM movie com ${movie.title}`
+    });
+    if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+          alert('Filme partilhado')
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    
+    setDisableShare(true)
+    }catch(error){
+        alert(error.message)
+    }
+    
+}
 
 async function handleBookMark(){
 
@@ -88,6 +114,37 @@ async function handleBookMark(){
 
    
 }
+if(loading){
+    return(
+        
+
+
+            <Container>
+            
+                <Header>
+                
+                    <HeaderButton  onPress={() => navigation.goBack()}>
+                    
+                    <Feather name="arrow-left" color="#fff" size={28} />
+    
+                    
+                    </HeaderButton>
+
+
+                    </Header>
+
+                    <SafeAreaView>
+                    
+                    <ActivityIndicator size="large" color="#fff" />
+                    </SafeAreaView>
+
+                  
+                    </Container>
+    
+    
+    )
+}
+
 
     return(
 
@@ -120,7 +177,17 @@ async function handleBookMark(){
               
               />
 
-              <ButtonLink onPress={()=>openModal()}>
+              {disableShare?(
+                   <>
+              
+            
+              </>):(<ButtonShare onPress={handleShare} disabled={disableShare}>
+              
+              <Feather name="share" color="#fff" size={24} />
+              </ButtonShare>)}
+           
+
+              <ButtonLink onPress={()=>openModal()} onLongPress={()=>setDisableShare(false)}>
               
               <Feather name="link" color="#fff" size={24} />
               </ButtonLink>

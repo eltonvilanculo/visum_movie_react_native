@@ -56,6 +56,23 @@ align-items: center;
 
 `;
 
+export const ButtonShare = styled.TouchableOpacity `
+z-index: 99;
+position: absolute;
+top: 220px;
+right: 15px;
+height: 63px;
+width: 63px;
+
+border-radius: 35px;
+background-color: #f72f49;
+justify-content: center;
+align-items: center;
+
+
+
+`;
+
 export const Title = styled.Text `
 
 color: #FFF;
